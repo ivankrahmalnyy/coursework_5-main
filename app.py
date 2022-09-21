@@ -1,6 +1,6 @@
-from urllib import request
 
-from flask import Flask, render_template, redirect, url_for
+
+from flask import Flask, render_template, redirect, url_for, request
 
 from base import Arena
 from classes import WarriorClass, ThiefClass, unit_classes
@@ -31,7 +31,7 @@ def start_fight():
 @app.route("/fight/hit")
 def hit():
     if arena.game_is_running:
-        result = arena.player.hit()
+        result = arena.player_hit()
         return render_template('fight.html', heroes=heroes, result=result)
 
 
@@ -57,7 +57,7 @@ def end_fight():
 
 @app.route("/choose-hero/", methods=['post', 'get'])
 def choose_hero():
-    if request.method == 'GET':
+    if request.method == "GET":
         header = 'Выбор героя'
         equipment = Equipment()
         weapons = equipment.get_weapons_names()

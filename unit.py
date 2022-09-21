@@ -100,7 +100,8 @@ class BaseUnit(ABC):
 
 
 class PlayerUnit(BaseUnit):
-    pass
+    def hit(self, target: BaseUnit) -> str:
+        pass
 
 
 class EnemyUnit(BaseUnit):
