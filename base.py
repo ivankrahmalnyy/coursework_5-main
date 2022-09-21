@@ -1,5 +1,6 @@
 from unit import BaseUnit
 
+
 class BaseSingleton(type):
     _instances = {}
 
@@ -36,7 +37,6 @@ class Arena(metaclass=BaseSingleton):
             self.battle_result = "Вы проиграли"
             return self._end_game()
 
-
     def _stamina_regeneration(self):
         self.player.add_stamina(self.STAMINA_PER_ROUND)
         self.enemy.add_stamina(self.STAMINA_PER_ROUND)
@@ -48,7 +48,7 @@ class Arena(metaclass=BaseSingleton):
         #     self.enemy.stamina += enemy_stamina_growth
 
     def next_turn(self):
-        result =self._check_player_hp()
+        result = self._check_players_hp()
         if result:
             return result
         self._stamina_regeneration()
@@ -56,7 +56,7 @@ class Arena(metaclass=BaseSingleton):
 
     def _end_game(self):
         self._instancse = {}
-        self.game_is_running= False
+        self.game_is_running = False
         return self.battle_result
 
     def player_hit(self):

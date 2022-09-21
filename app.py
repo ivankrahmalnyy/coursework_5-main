@@ -1,6 +1,6 @@
-from urllib import request
 
-from flask import Flask, render_template, redirect, url_for
+
+from flask import Flask, render_template, redirect, url_for, request
 
 from base import Arena
 from classes import WarriorClass, ThiefClass, unit_classes
@@ -31,8 +31,10 @@ def start_fight():
 @app.route("/fight/hit")
 def hit():
     if arena.game_is_running:
-        result = arena.player.hit()
+        result = arena.player_hit()
         return render_template('fight.html', heroes=heroes, result=result)
+    else:
+        return redirect(url_for('end_fight'))
 
 
 @app.route("/fight/use-skill")
@@ -40,7 +42,8 @@ def use_skill():
     if arena.game_is_running:
         result = arena.player_use_skill()
         return render_template('fight.html', heroes=heroes, result=result)
-
+    else:
+        return redirect(url_for('end_fight'))
 
 @app.route("/fight/pass-turn")
 def pass_turn():
@@ -57,7 +60,7 @@ def end_fight():
 
 @app.route("/choose-hero/", methods=['post', 'get'])
 def choose_hero():
-    if request.method == 'GET':
+    if request.method == "GET":
         header = 'Выбор героя'
         equipment = Equipment()
         weapons = equipment.get_weapons_names()
@@ -65,7 +68,7 @@ def choose_hero():
         classes = unit_classes
         return render_template('hero_choosing.html',
                                result={'header': header, "weapons": weapons, "armors": armors, "classes": classes})
-    if request.method == 'POST':
+    if request.method == "POST":
         name = request.form['name']
         chosen_unit_class = request.form['unit_class']
         weapon_name = request.form['weapon']
@@ -79,7 +82,7 @@ def choose_hero():
 
 @app.route("/choose-enemy/", methods=['post', 'get'])
 def choose_enemy():
-    if request.method == 'GET':
+    if request.method == "GET":
         header = 'Выбор противника'
         equipment = Equipment()
         weapons = equipment.get_weapons_names()
@@ -87,7 +90,7 @@ def choose_enemy():
         classes = unit_classes
         return render_template('hero_choosing.html',
                                result={'header': header, "weapons": weapons, "armors": armors, "classes": classes})
-    if request.method == 'POST':
+    if request.method == "POST":
         name = request.form['name']
         chosen_unit_class = request.form['unit_class']
         weapon_name = request.form['weapon']

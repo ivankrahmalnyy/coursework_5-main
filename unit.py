@@ -47,7 +47,7 @@ class BaseUnit(ABC):
 
         if target.stamina > target.armor.stamina_per_turn:
             target_armor = target.armor.defence * target.unit_class.armor
-            target.stamina -= target.armor.stamina_per_tern
+            target.stamina -= target.armor.stamina_per_turn
         else:
             target_armor = 0
         damage = unit_damage - target_armor
@@ -92,7 +92,7 @@ class BaseUnit(ABC):
             return self.unit_class.skill.use(user=self, target=target)
 
     def add_stamina(self, stamina_point):
-        stamina_growth = self.stamina_point * self.unit_class.stamina
+        stamina_growth = stamina_point * self.unit_class.stamina
         if self.stamina + stamina_growth > self.unit_class.max_stamina:
             self.stamina = self.unit_class.max_stamina
         else:
@@ -100,7 +100,8 @@ class BaseUnit(ABC):
 
 
 class PlayerUnit(BaseUnit):
-    pass
+    def hit(self, target: BaseUnit) -> str:
+        pass
 
 
 class EnemyUnit(BaseUnit):

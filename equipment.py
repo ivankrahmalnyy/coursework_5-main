@@ -30,7 +30,7 @@ class Weapon:
 @dataclass
 class EquipmentData:
     weapons: list[Weapon]
-    armor: list[Armor]
+    armors: list[Armor]
 
 
 class Equipment:
@@ -46,7 +46,7 @@ class Equipment:
         #         return weapon
 
     def get_armor(self, armor_name) -> Armor:
-        return next(filter(lambda _: _.name == armor_name, self.equipment.weapons))
+        return next(filter(lambda _: _.name == armor_name, self.equipment.armors))
 
     def get_weapons_names(self) -> list:
         return [weapon.name for weapon in self.equipment.weapons]
@@ -57,7 +57,7 @@ class Equipment:
     @staticmethod
     def _get_equipment_data() -> EquipmentData:
         # TODO этот метод загружает json в переменную EquipmentData
-        with open ("./data/equipment.json") as equipment_file:
+        with open("./data/equipment.json") as equipment_file:
             data = json.load(equipment_file)
         equipment_schema = marshmallow_dataclass.class_schema(EquipmentData)
         try:
