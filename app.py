@@ -41,15 +41,19 @@ def hit():
 def use_skill():
     if arena.game_is_running:
         result = arena.player_use_skill()
-        return render_template('fight.html', heroes=heroes, result=result)
+        #return render_template('fight.html', heroes=heroes, result=result)
     else:
-        return redirect(url_for('end_fight'))
+        result = arena.battle_result()
+
+    return render_template("fight.html", heroes=heroes, result=result)
 
 @app.route("/fight/pass-turn")
 def pass_turn():
     if arena.game_is_running:
-        result = arena.arena.next_turn()
+        result = arena.next_turn()
         return render_template('fight.html', heroes=heroes, result=result)
+    else:
+        return redirect(url_for('end_fight'))
 
 
 @app.route("/fight/end-fight")

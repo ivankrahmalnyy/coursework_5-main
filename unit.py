@@ -86,10 +86,10 @@ class BaseUnit(ABC):
         """
         if self._is_skill_used:
             return "Навык использован"
-        else:
-            if self.unit_class.skill._is_stamina_enough:
-                self._is_skill_used = True
-            return self.unit_class.skill.use(user=self, target=target)
+        # else:
+        #     if self.unit_class.skill._is_stamina_enough:
+        self._is_skill_used = True
+        return self.unit_class.skill.use(user=self, target=target)
 
     def add_stamina(self, stamina_point):
         stamina_growth = stamina_point * self.unit_class.stamina
@@ -101,7 +101,25 @@ class BaseUnit(ABC):
 
 class PlayerUnit(BaseUnit):
     def hit(self, target: BaseUnit) -> str:
-        pass
+        """
+        Метод проверяет достаточность выносливости для нанесения
+        удара и возвращает результат в виде строки
+        """
+        if self.stamina * self.unit_class.stamina < self.weapon.stamina_per_hit:
+            return (
+                f"{self.name} попытался использовать {self.weapon.name}, "
+                f"но у него не хватило выносливости."
+            )
+        damage = self._count_damage(target)
+        if damage > 0:
+            return (
+                f"{self.name} используя {self.weapon.name} пробивает "
+                f"{target.armor.name} соперника и наносит {damage} урона."
+            )
+        return (
+            f"{self.name} используя {self.weapon.name} наносит удар, "
+            f"но {target.armor.name} cоперника его останавливает."
+        )
 
 
 class EnemyUnit(BaseUnit):
