@@ -87,7 +87,7 @@ class BaseUnit(ABC):
         if self._is_skill_used:
             return "Навык использован"
         else:
-            if self.unit_class.skill._is_stamina_enough():
+            if self.unit_class.skill._is_stamina_enough:
                 self._is_skill_used = True
             return self.unit_class.skill.use(user=self, target=target)
 
